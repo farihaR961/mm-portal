@@ -1,4 +1,4 @@
-# MM Portal — Frontend Prototype
+# MM Portal-Frontend Prototype
 
 A frontend-only prototype of the MM Program Portal, built with React + Vite + TypeScript + Tailwind CSS. All data is fake and lives behind a single mock API module (`src/mock-api/`) so a real backend can be swapped in later without touching UI code. There is no real UofA login and no real email sending — both are mocked, as scoped for this first two-week deliverable.
 
