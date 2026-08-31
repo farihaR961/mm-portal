@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-white text-ink font-sans;
+  }
+  h1, h2, h3, h4 {
+    @apply font-sans font-semibold text-ink;
+  }
+  ::selection {
+    @apply bg-ua-gold/60;
+  }
+  :focus-visible {
+    outline: 2px solid #007C41;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .accent {
+    @apply font-accent italic;
+  }
+  .label-mono {
+    @apply font-mono text-[11px] tracking-wide text-ink-2;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-ua-gold text-ink font-medium px-4 py-2 rounded-card hover:brightness-95 transition-colors;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 bg-white border border-line text-ink font-medium px-4 py-2 rounded-card hover:bg-mist transition-colors;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 text-ua-green font-medium px-2 py-1 hover:underline;
+  }
+  .card {
+    @apply bg-white border border-line rounded-card p-5;
+  }
+  .input {
+    @apply w-full border border-line rounded-card px-3 py-2 text-sm bg-white focus:border-ua-green;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wide px-2 py-0.5 rounded-full border;
+  }
+}
