@@ -113,7 +113,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6">{children}</main>
       <footer className="border-t border-line py-4">
         <div className="max-w-6xl mx-auto px-4 label-mono">
-          MM Portal — frontend prototype with mock data. Not connected to a real UofA login or backend.
+          © 2026 Multimedia UofA
         </div>
       </footer>
     </div>
