@@ -44,6 +44,8 @@ export const ADMISSION_REQUIREMENTS = {
   degree: 'A four-year undergraduate degree (or equivalent) in Computing Science, Computer Engineering, or a related Science/Engineering field',
   gpa: 'Minimum 3.0 GPA (on a 4.0 scale) in the last two years of prior study',
   programming: 'Undergraduate-level programming (e.g. C/C++, C#, OpenGL, MATLAB, Java, or Python) — script languages alone (PHP, JavaScript) are not sufficient',
+  transcript: 'An official transcript from the issuing institution',
+  englishProficiency: 'English Language Proficiency requirement per the Faculty of Graduate & Postdoctoral Studies (FGPS)',
 }
 
 export const PROGRAM_FACTS = {
@@ -54,6 +56,10 @@ export const PROGRAM_FACTS = {
   minTermGpa: 3.0,
   minCourseGrade: 'B-',
   fullTimeCreditsPerTerm: 9,
+  maxCreditsPerTerm: 9,
   typicalLength: '2 years',
   maxLength: '4 years',
+  residency: 'No full-time residency requirement',
+  scheduling: 'Core courses run in Fall and Winter terms, sometimes in an intensive evening/weekend format',
+  publishing: 'Students may extend a course project into a paper for conference or journal submission, with program sponsorship for high-quality work',
 }

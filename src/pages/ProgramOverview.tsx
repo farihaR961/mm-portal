@@ -58,8 +58,34 @@ export default function ProgramOverview() {
           <li>• {ADMISSION_REQUIREMENTS.degree}</li>
           <li>• {ADMISSION_REQUIREMENTS.gpa}</li>
           <li>• {ADMISSION_REQUIREMENTS.programming}</li>
+          <li>• {ADMISSION_REQUIREMENTS.transcript}</li>
+          <li>• {ADMISSION_REQUIREMENTS.englishProficiency}</li>
           <li>• Reviewed by an admission committee specific to the MM Program, separate from the department's general graduate admissions committee.</li>
         </ul>
+      </section>
+
+      <section className="card mb-6">
+        <h2 className="text-xl mb-3">Program length &amp; scheduling</h2>
+        <div className="grid sm:grid-cols-2 gap-4 text-sm text-ink-2">
+          <div>
+            <p className="label-mono mb-1">Duration</p>
+            <p>
+              Designed to be completed in {PROGRAM_FACTS.typicalLength}; must be finished within{' '}
+              {PROGRAM_FACTS.maxLength} of admission. {PROGRAM_FACTS.residency}.
+            </p>
+          </div>
+          <div>
+            <p className="label-mono mb-1">Course scheduling</p>
+            <p>
+              {PROGRAM_FACTS.scheduling}. Full-time students register in at least {PROGRAM_FACTS.fullTimeCreditsPerTerm}{' '}
+              credits per term, and a maximum of {PROGRAM_FACTS.maxCreditsPerTerm} MM credits per term.
+            </p>
+          </div>
+          <div>
+            <p className="label-mono mb-1">Publishing course work</p>
+            <p>{PROGRAM_FACTS.publishing}.</p>
+          </div>
+        </div>
       </section>
 
       <section className="card mb-6">
@@ -156,6 +182,23 @@ export default function ProgramOverview() {
             <p>Faculty research group hosting MM course projects and internship partnerships.</p>
           </div>
         </div>
+      </section>
+
+      <section className="card mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <p className="label-mono mb-1">Official program site</p>
+          <p className="text-sm text-ink-2">
+            This page summarizes entrance and program requirements from the official MM Program site.
+          </p>
+        </div>
+        <a
+          href="https://mmgrad.org/program.php"
+          target="_blank"
+          rel="noreferrer"
+          className="btn-primary flex-shrink-0"
+        >
+          More information
+        </a>
       </section>
 
       {!session && (
