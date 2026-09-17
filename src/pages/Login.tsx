@@ -43,8 +43,7 @@ export default function Login() {
             Welcome to the <span className="accent">MM</span> Portal
           </h1>
           <p className="text-ink-2">
-            This prototype uses a mock sign-in instead of a real UofA CCID login. Pick a role below to explore the
-            portal with sample data.
+            Pick a role below to explore the MM portal.
           </p>
         </div>
 

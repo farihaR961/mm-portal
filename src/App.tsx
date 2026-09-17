@@ -3,6 +3,7 @@ import AppShell from './components/AppShell'
 import RequireRole from './components/RequireRole'
 
 import Login from './pages/Login'
+import Home from './pages/Home'
 import ProgramOverview from './pages/ProgramOverview'
 import AlumniPortal from './pages/AlumniPortal'
 
@@ -26,7 +27,8 @@ export default function App() {
   return (
     <AppShell>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/program" element={<ProgramOverview />} />
 
         <Route
