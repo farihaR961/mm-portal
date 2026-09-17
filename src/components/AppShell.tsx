@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { ReactNode } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { getStudentById } from '../mock-api'
@@ -41,8 +41,11 @@ function navItemsFor(role: 'admin' | 'student', subRole?: 'current' | 'alumni'):
 export default function AppShell({ children }: { children: ReactNode }) {
   const { session, logout } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
 
-  if (!session) {
+  // The Home page is a standalone landing page with its own header — never
+  // wrap it in the logged-in app nav, even if someone happens to be signed in.
+  if (!session || location.pathname === '/') {
     return <>{children}</>
   }
 
@@ -74,8 +77,10 @@ export default function AppShell({ children }: { children: ReactNode }) {
                 to={item.to}
                 end={item.to === '/admin' || item.to === '/student'}
                 className={({ isActive }) =>
-                  `px-3 py-2 text-sm rounded-card transition-colors ${
-                    isActive ? 'bg-mist text-ua-deep-green font-medium' : 'text-ink-2 hover:bg-mist'
+                  `px-3 py-2 text-sm rounded-card transition-colors relative ${
+                    isActive
+                      ? 'text-ua-deep-green font-medium after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-ua-green'
+                      : 'text-ink-2 hover:bg-mist'
                   }`
                 }
               >
@@ -100,8 +105,10 @@ export default function AppShell({ children }: { children: ReactNode }) {
               to={item.to}
               end={item.to === '/admin' || item.to === '/student'}
               className={({ isActive }) =>
-                `px-3 py-2 text-sm rounded-card whitespace-nowrap ${
-                  isActive ? 'bg-mist text-ua-deep-green font-medium' : 'text-ink-2'
+                `px-3 py-2 text-sm rounded-card whitespace-nowrap relative ${
+                  isActive
+                    ? 'text-ua-deep-green font-medium after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-ua-green'
+                    : 'text-ink-2'
                 }`
               }
             >
@@ -110,11 +117,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
       </header>
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6">{children}</main>
+      <main key={location.pathname} className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 animate-fade-up">
+        {children}
+      </main>
       <footer className="border-t border-line py-4">
-        <div className="max-w-6xl mx-auto px-4 label-mono">
-          © 2026 Multimedia UofA
-        </div>
+        <div className="max-w-6xl mx-auto px-4 label-mono">© 2026 Multimedia UofA</div>
       </footer>
     </div>
   )

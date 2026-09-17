@@ -29,16 +29,19 @@
     @apply font-mono text-[11px] tracking-wide text-ink-2;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-ua-gold text-ink font-medium px-4 py-2 rounded-card hover:brightness-95 transition-colors;
+    @apply inline-flex items-center justify-center gap-2 bg-ua-gold text-ink font-medium px-4 py-2 rounded-card hover:brightness-95 active:scale-[0.98] transition-all;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white border border-line text-ink font-medium px-4 py-2 rounded-card hover:bg-mist transition-colors;
+    @apply inline-flex items-center justify-center gap-2 bg-white border border-line text-ink font-medium px-4 py-2 rounded-card hover:bg-mist active:scale-[0.98] transition-all;
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 text-ua-green font-medium px-2 py-1 hover:underline;
   }
   .card {
-    @apply bg-white border border-line rounded-card p-5;
+    @apply bg-white border border-line rounded-card p-5 transition-all duration-150;
+  }
+  .card:hover {
+    @apply shadow-sm;
   }
   .input {
     @apply w-full border border-line rounded-card px-3 py-2 text-sm bg-white focus:border-ua-green;
