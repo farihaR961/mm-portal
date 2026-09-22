@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import Footer from '../components/Footer'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-16 grid md:grid-cols-2 gap-10 items-center">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-20 grid md:grid-cols-2 gap-10 items-center">
         <div className="animate-fade-up">
           <p className="label-mono mb-3">Multimedia Research Centre</p>
           <h1 className="text-4xl md:text-5xl mb-4">
@@ -52,9 +53,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="border-t border-line py-4">
-        <div className="max-w-5xl mx-auto px-4 label-mono">© 2026 Multimedia UofA</div>
-      </footer>
+      <Footer maxWidth="max-w-5xl" />
     </div>
   )
 }

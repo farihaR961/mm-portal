@@ -2,6 +2,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { ReactNode } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { getStudentById } from '../mock-api'
+import Footer from './Footer'
 
 interface NavItem {
   to: string
@@ -120,9 +121,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <main key={location.pathname} className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 animate-fade-up">
         {children}
       </main>
-      <footer className="border-t border-line py-4">
-        <div className="max-w-6xl mx-auto px-4 label-mono">© 2026 Multimedia UofA</div>
-      </footer>
+      <Footer />
     </div>
   )
 }
