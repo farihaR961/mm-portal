@@ -29,25 +29,25 @@
     @apply font-mono text-[11px] tracking-wide text-ink-2;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-ua-gold text-ink font-medium px-4 py-2 rounded-card hover:brightness-95 active:scale-[0.98] transition-all;
+    @apply inline-flex items-center justify-center gap-2 bg-ua-gold text-ink font-medium px-4 py-2 rounded-card hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-150;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 bg-white border border-line text-ink font-medium px-4 py-2 rounded-card hover:bg-mist active:scale-[0.98] transition-all;
+    @apply inline-flex items-center justify-center gap-2 bg-white border border-line text-ink font-medium px-4 py-2 rounded-card hover:bg-mist hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-150;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 text-ua-green font-medium px-2 py-1 hover:underline;
+    @apply inline-flex items-center justify-center gap-2 text-ua-green font-medium px-2 py-1 hover:underline transition-colors;
   }
   .card {
-    @apply bg-white border border-line rounded-card p-5 transition-all duration-150;
+    @apply bg-white border border-line rounded-card p-5 transition-all duration-200;
   }
   .card:hover {
-    @apply shadow-sm;
+    @apply shadow-md -translate-y-0.5 border-ua-green/30;
   }
   .input {
-    @apply w-full border border-line rounded-card px-3 py-2 text-sm bg-white focus:border-ua-green;
+    @apply w-full border border-line rounded-card px-3 py-2 text-sm bg-white focus:border-ua-green transition-colors;
   }
   .badge {
-    @apply inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wide px-2 py-0.5 rounded-full border;
+    @apply inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wide px-2 py-0.5 rounded-full border transition-transform;
   }
 }
 
