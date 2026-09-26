@@ -18,6 +18,42 @@ function computeNextAction(student: ReturnType<typeof useCurrentStudent>): strin
   return 'You are on track — no urgent action right now.'
 }
 
+const UALBERTA_APPS = [
+  {
+    name: 'Canvas',
+    description: 'Course content, assignments, and grades',
+    url: 'https://canvas.ualberta.ca/',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="M3 9h18M9 4v16" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Bear Tracks',
+    description: 'Registration, grades, and tuition payments',
+    url: 'https://www.beartracks.ualberta.ca/',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Gmail',
+    description: 'Your @ualberta.ca student email',
+    url: 'https://mail.google.com/a/ualberta.ca',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m2 7 10 6 10-6" />
+      </svg>
+    ),
+  },
+]
+
 export default function StudentDashboard() {
   const student = useCurrentStudent()
   if (!student) return null
@@ -63,6 +99,28 @@ export default function StudentDashboard() {
           </p>
           <p className="text-xs text-ink-2 mt-1">items complete</p>
         </Link>
+      </div>
+
+      <div className="card mb-6">
+        <h2 className="text-lg mb-1">Apps of UAlberta</h2>
+        <p className="text-sm text-ink-2 mb-4">Quick access to the university's own systems.</p>
+        <div className="grid sm:grid-cols-3 gap-4">
+          {UALBERTA_APPS.map((app) => (
+            <a
+              key={app.name}
+              href={app.url}
+              target="_blank"
+              rel="noreferrer"
+              className="border border-line rounded-card p-4 hover:border-ua-green/50 hover:shadow-sm transition-all flex items-start gap-3"
+            >
+              <div className="text-ua-deep-green flex-shrink-0 mt-0.5">{app.icon}</div>
+              <div>
+                <p className="font-medium text-sm">{app.name} ↗</p>
+                <p className="text-xs text-ink-2 mt-0.5">{app.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">

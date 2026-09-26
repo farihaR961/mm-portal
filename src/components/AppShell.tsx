@@ -2,7 +2,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { ReactNode } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { getStudentById } from '../mock-api'
-import Footer from './Footer'
+import Footer from './footer'
 
 interface NavItem {
   to: string
