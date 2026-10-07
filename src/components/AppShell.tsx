@@ -15,6 +15,7 @@ function navItemsFor(role: Role, subRole?: StudentSubRole): NavItem[] {
     return [
       { to: '/admin', label: 'Dashboard' },
       { to: '/admin/calendar', label: 'Calendar' },
+      { to: '/admin/documents', label: 'Documents' },
       { to: '/admin/jobs', label: 'Job Postings' },
       { to: '/admin/notifications', label: 'Notifications' },
       { to: '/admin/export', label: 'Export' },
@@ -37,6 +38,7 @@ function navItemsFor(role: Role, subRole?: StudentSubRole): NavItem[] {
     { to: '/student', label: 'Dashboard' },
     { to: '/student/profile', label: 'Profile' },
     { to: '/student/journey', label: 'MM Journey' },
+    { to: '/student/documents', label: 'Documents' },
     { to: '/student/calendar', label: 'Calendar' },
     { to: '/student/notifications', label: 'Notifications' },
     { to: '/student/internship', label: 'Internship' },

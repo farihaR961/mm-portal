@@ -12,6 +12,7 @@ import PartnerPortal from './pages/PartnerPortal'
 import StudentDashboard from './pages/student/Dashboard'
 import StudentProfile from './pages/student/Profile'
 import StudentJourney from './pages/student/Journey'
+import StudentDocuments from './pages/student/Documents'
 import StudentCalendarPage from './pages/student/StudentCalendar'
 import StudentNotifications from './pages/student/Notifications'
 import StudentInternship from './pages/student/Internship'
@@ -21,6 +22,7 @@ import StudentTools from './pages/student/Tools'
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminStudentDetail from './pages/admin/StudentDetail'
 import AdminCalendarManagement from './pages/admin/CalendarManagement'
+import AdminDocumentManagement from './pages/admin/DocumentManagement'
 import AdminJobManagement from './pages/admin/JobManagement'
 import AdminNotificationCentre from './pages/admin/NotificationCentre'
 import AdminExport from './pages/admin/Export'
@@ -50,6 +52,7 @@ export default function App() {
         <Route path="/student" element={asCurrentStudent(<StudentDashboard />)} />
         <Route path="/student/profile" element={asCurrentStudent(<StudentProfile />)} />
         <Route path="/student/journey" element={asCurrentStudent(<StudentJourney />)} />
+        <Route path="/student/documents" element={asCurrentStudent(<StudentDocuments />)} />
         <Route path="/student/calendar" element={asCurrentStudent(<StudentCalendarPage />)} />
         <Route path="/student/notifications" element={asCurrentStudent(<StudentNotifications />)} />
         <Route path="/student/internship" element={asCurrentStudent(<StudentInternship />)} />
@@ -63,6 +66,7 @@ export default function App() {
         <Route path="/admin" element={asAdmin(<AdminDashboard />)} />
         <Route path="/admin/students/:studentId" element={asAdmin(<AdminStudentDetail />)} />
         <Route path="/admin/calendar" element={asAdmin(<AdminCalendarManagement />)} />
+        <Route path="/admin/documents" element={asAdmin(<AdminDocumentManagement />)} />
         <Route path="/admin/jobs" element={asAdmin(<AdminJobManagement />)} />
         <Route path="/admin/notifications" element={asAdmin(<AdminNotificationCentre />)} />
         <Route path="/admin/export" element={asAdmin(<AdminExport />)} />
