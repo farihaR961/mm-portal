@@ -1,5 +1,5 @@
 // ---------- Roles ----------
-export type Role = 'admin' | 'student'
+export type Role = 'admin' | 'student' | 'partner'
 export type StudentSubRole = 'current' | 'alumni'
 
 // ---------- Courses ----------

@@ -1,11 +1,13 @@
-import { Routes, Route } from 'react-router-dom'
+import { ReactNode } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import AppShell from './components/AppShell'
 import RequireRole from './components/RequireRole'
 
-import Login from './pages/Login'
 import Home from './pages/Home'
+import Login from './pages/Login'
 import ProgramOverview from './pages/ProgramOverview'
 import AlumniPortal from './pages/AlumniPortal'
+import PartnerPortal from './pages/PartnerPortal'
 
 import StudentDashboard from './pages/student/Dashboard'
 import StudentProfile from './pages/student/Profile'
@@ -23,6 +25,20 @@ import AdminJobManagement from './pages/admin/JobManagement'
 import AdminNotificationCentre from './pages/admin/NotificationCentre'
 import AdminExport from './pages/admin/Export'
 
+// One small helper per role keeps the route table below easy to read.
+const asCurrentStudent = (page: ReactNode) => (
+  <RequireRole role="student" subRole="current">
+    {page}
+  </RequireRole>
+)
+const asAlumni = (page: ReactNode) => (
+  <RequireRole role="student" subRole="alumni">
+    {page}
+  </RequireRole>
+)
+const asAdmin = (page: ReactNode) => <RequireRole role="admin">{page}</RequireRole>
+const asPartner = (page: ReactNode) => <RequireRole role="partner">{page}</RequireRole>
+
 export default function App() {
   return (
     <AppShell>
@@ -31,128 +47,27 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/program" element={<ProgramOverview />} />
 
-        <Route
-          path="/student"
-          element={
-            <RequireRole role="student">
-              <StudentDashboard />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/profile"
-          element={
-            <RequireRole role="student">
-              <StudentProfile />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/journey"
-          element={
-            <RequireRole role="student">
-              <StudentJourney />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/calendar"
-          element={
-            <RequireRole role="student">
-              <StudentCalendarPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/notifications"
-          element={
-            <RequireRole role="student">
-              <StudentNotifications />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/internship"
-          element={
-            <RequireRole role="student">
-              <StudentInternship />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/jobs"
-          element={
-            <RequireRole role="student">
-              <JobHub />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/student/tools"
-          element={
-            <RequireRole role="student">
-              <StudentTools />
-            </RequireRole>
-          }
-        />
+        <Route path="/student" element={asCurrentStudent(<StudentDashboard />)} />
+        <Route path="/student/profile" element={asCurrentStudent(<StudentProfile />)} />
+        <Route path="/student/journey" element={asCurrentStudent(<StudentJourney />)} />
+        <Route path="/student/calendar" element={asCurrentStudent(<StudentCalendarPage />)} />
+        <Route path="/student/notifications" element={asCurrentStudent(<StudentNotifications />)} />
+        <Route path="/student/internship" element={asCurrentStudent(<StudentInternship />)} />
+        <Route path="/student/jobs" element={asCurrentStudent(<JobHub />)} />
+        <Route path="/student/tools" element={asCurrentStudent(<StudentTools />)} />
 
-        <Route
-          path="/alumni"
-          element={
-            <RequireRole role="student">
-              <AlumniPortal />
-            </RequireRole>
-          }
-        />
+        <Route path="/alumni" element={asAlumni(<AlumniPortal />)} />
 
-        <Route
-          path="/admin"
-          element={
-            <RequireRole role="admin">
-              <AdminDashboard />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/students/:studentId"
-          element={
-            <RequireRole role="admin">
-              <AdminStudentDetail />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/calendar"
-          element={
-            <RequireRole role="admin">
-              <AdminCalendarManagement />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/jobs"
-          element={
-            <RequireRole role="admin">
-              <AdminJobManagement />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/notifications"
-          element={
-            <RequireRole role="admin">
-              <AdminNotificationCentre />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/admin/export"
-          element={
-            <RequireRole role="admin">
-              <AdminExport />
-            </RequireRole>
-          }
-        />
+        <Route path="/partner" element={asPartner(<PartnerPortal />)} />
+
+        <Route path="/admin" element={asAdmin(<AdminDashboard />)} />
+        <Route path="/admin/students/:studentId" element={asAdmin(<AdminStudentDetail />)} />
+        <Route path="/admin/calendar" element={asAdmin(<AdminCalendarManagement />)} />
+        <Route path="/admin/jobs" element={asAdmin(<AdminJobManagement />)} />
+        <Route path="/admin/notifications" element={asAdmin(<AdminNotificationCentre />)} />
+        <Route path="/admin/export" element={asAdmin(<AdminExport />)} />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AppShell>
   )

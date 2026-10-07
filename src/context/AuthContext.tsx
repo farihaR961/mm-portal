@@ -1,17 +1,28 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import { Role, StudentSubRole } from '../types'
-import { STUDENTS } from '../mock-api/students'
+import { signIn } from '../mock-api'
 
-interface Session {
+export interface Session {
+  email: string
+  displayName: string
   role: Role
-  studentId?: string // set when role is 'student'
   subRole?: StudentSubRole
+  studentId?: string
+}
+
+export type LoginResult = { ok: true; redirectTo: string } | { ok: false; error: string }
+
+// Where each role lands after signing in (and when sent away from a page
+// they are not allowed to see).
+export function homePathFor(session: Pick<Session, 'role' | 'subRole'>): string {
+  if (session.role === 'admin') return '/admin'
+  if (session.role === 'partner') return '/partner'
+  return session.subRole === 'alumni' ? '/alumni' : '/student'
 }
 
 interface AuthContextValue {
   session: Session | null
-  loginAsAdmin: () => void
-  loginAsStudent: (studentId: string, subRole: StudentSubRole) => void
+  login: (email: string, password: string) => LoginResult
   logout: () => void
 }
 
@@ -20,16 +31,25 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
 
-  const loginAsAdmin = () => setSession({ role: 'admin' })
-  const loginAsStudent = (studentId: string, subRole: StudentSubRole) =>
-    setSession({ role: 'student', studentId, subRole })
+  const login = (email: string, password: string): LoginResult => {
+    const result = signIn(email, password)
+    if (!result.ok) return { ok: false, error: result.error }
+
+    const { account } = result
+    const next: Session = {
+      email: account.email,
+      displayName: account.displayName,
+      role: account.role,
+      subRole: account.subRole,
+      studentId: account.studentId,
+    }
+    setSession(next)
+    return { ok: true, redirectTo: homePathFor(next) }
+  }
+
   const logout = () => setSession(null)
 
-  return (
-    <AuthContext.Provider value={{ session, loginAsAdmin, loginAsStudent, logout }}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={{ session, login, logout }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth(): AuthContextValue {
@@ -37,8 +57,3 @@ export function useAuth(): AuthContextValue {
   if (!ctx) throw new Error('useAuth must be used within AuthProvider')
   return ctx
 }
-
-// Convenience: the default students used for the "Current Student" and
-// "Alumni" mock login options.
-export const DEFAULT_CURRENT_STUDENT_ID = STUDENTS.find((s) => s.subRole === 'current')!.id
-export const DEFAULT_ALUMNI_ID = STUDENTS.find((s) => s.subRole === 'alumni')!.id

@@ -1,15 +1,16 @@
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { ReactNode } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { getStudentById } from '../mock-api'
-import Footer from './footer'
+import { describeRole } from '../mock-api'
+import { Role, StudentSubRole } from '../types'
+import Footer from './Footer'
 
 interface NavItem {
   to: string
   label: string
 }
 
-function navItemsFor(role: 'admin' | 'student', subRole?: 'current' | 'alumni'): NavItem[] {
+function navItemsFor(role: Role, subRole?: StudentSubRole): NavItem[] {
   if (role === 'admin') {
     return [
       { to: '/admin', label: 'Dashboard' },
@@ -17,6 +18,12 @@ function navItemsFor(role: 'admin' | 'student', subRole?: 'current' | 'alumni'):
       { to: '/admin/jobs', label: 'Job Postings' },
       { to: '/admin/notifications', label: 'Notifications' },
       { to: '/admin/export', label: 'Export' },
+      { to: '/program', label: 'Program Info' },
+    ]
+  }
+  if (role === 'partner') {
+    return [
+      { to: '/partner', label: 'Partner Home' },
       { to: '/program', label: 'Program Info' },
     ]
   }
@@ -50,7 +57,6 @@ export default function AppShell({ children }: { children: ReactNode }) {
     return <>{children}</>
   }
 
-  const student = session.studentId ? getStudentById(session.studentId) : undefined
   const items = navItemsFor(session.role, session.subRole)
 
   const handleLogout = () => {
@@ -91,8 +97,8 @@ export default function AppShell({ children }: { children: ReactNode }) {
           </nav>
           <div className="flex items-center gap-3">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-medium leading-tight">{student ? student.name : 'MM Administrator'}</p>
-              <p className="label-mono leading-tight uppercase">{session.role === 'admin' ? 'Admin' : session.subRole}</p>
+              <p className="text-sm font-medium leading-tight">{session.displayName}</p>
+              <p className="label-mono leading-tight uppercase">{describeRole(session)}</p>
             </div>
             <button onClick={handleLogout} className="btn-secondary text-sm">
               Log out
