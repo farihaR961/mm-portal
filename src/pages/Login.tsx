@@ -74,7 +74,7 @@ export default function Login() {
           <div className="bg-white border border-line rounded-card shadow-sm p-6 sm:p-8">
             <div className="text-center mb-6">
               <p className="text-ink-2">Campus Computing ID</p>
-              <h1 className="text-4xl font-bold leading-tight">Multimedia Portal</h1>
+              <h1 className="text-4xl font-bold leading-tight">Multimedia Portal Login</h1>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
