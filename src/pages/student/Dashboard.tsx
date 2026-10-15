@@ -5,6 +5,13 @@ import PageHeader from '../../components/PageHeader'
 import StatusBadge from '../../components/StatusBadge'
 import CategoryTag from '../../components/CategoryTag'
 
+// The link points to the department's TA resources page (it explains TA
+// assignment, pay, and duties; it is not an application form). If the MM office
+// confirms MM students can apply, put the real application link here and change
+// the label to 'Apply for TA ↗'.
+const TA_URL = 'https://www.ualberta.ca/en/computing-science/graduate-studies/teaching-assistant-resources/index.html'
+const TA_BUTTON_LABEL = 'TA resources ↗'
+
 function computeNextAction(student: ReturnType<typeof useCurrentStudent>): string {
   if (!student) return ''
   if (student.ethicsHoursCompleted < 8) return 'Complete remaining ethics training hours.'
@@ -18,39 +25,66 @@ function computeNextAction(student: ReturnType<typeof useCurrentStudent>): strin
   return 'You are on track — no urgent action right now.'
 }
 
+function CanvasLogo() {
+  const dots = Array.from({ length: 16 }, (_, i) => {
+    const angle = (i / 16) * 2 * Math.PI
+    const r = 10
+    return { cx: 13 + r * Math.cos(angle), cy: 13 + r * Math.sin(angle) }
+  })
+  return (
+    <svg width="26" height="26" viewBox="0 0 26 26">
+      {dots.map((d, i) => (
+        <circle key={i} cx={d.cx} cy={d.cy} r="1.6" fill="#0B3D23" />
+      ))}
+    </svg>
+  )
+}
+
+function GmailLogo() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 48 36" fill="none">
+      <rect x="0" y="2" width="48" height="32" rx="4" fill="#101B13" />
+      <path d="M8 28V12l16 12 16-12v16" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function BearTracksLogo() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="#0B3D23">
+      <path d="M7 9c-1.4 0-2.5 1.1-2.5 2.5S5.6 14 7 14s2.5-1.1 2.5-2.5S8.4 9 7 9Zm10 0c-1.4 0-2.5 1.1-2.5 2.5S15.6 14 17 14s2.5-1.1 2.5-2.5S18.4 9 17 9ZM3.5 5.5C2.4 5.5 1.5 6.4 1.5 7.5S2.4 9.5 3.5 9.5 5.5 8.6 5.5 7.5 4.6 5.5 3.5 5.5Zm17 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2Z" />
+      <path d="M12 11c-3.6 0-6.5 2.6-6.5 6.2 0 1.7 1.5 2.8 3.2 2.3.9-.3 2-.5 3.3-.5s2.4.2 3.3.5c1.7.5 3.2-.6 3.2-2.3C18.5 13.6 15.6 11 12 11Z" />
+    </svg>
+  )
+}
+
+function TeachingIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="3" y="4" width="18" height="12" rx="1.5" />
+      <path d="M8 20l4-4 4 4M7 9h6M7 12h10" />
+    </svg>
+  )
+}
+
 const UALBERTA_APPS = [
+  {
+    name: 'Gmail',
+    description: 'Your @ualberta.ca student email',
+    url: 'https://mail.google.com/a/ualberta.ca',
+    icon: <GmailLogo />,
+  },
   {
     name: 'Canvas',
     description: 'Course content, assignments, and grades',
     url: 'https://canvas.ualberta.ca/',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="3" y="4" width="18" height="16" rx="2" />
-        <path d="M3 9h18M9 4v16" />
-      </svg>
-    ),
+    icon: <CanvasLogo />,
   },
   {
     name: 'Bear Tracks',
     description: 'Registration, grades, and tuition payments',
     url: 'https://www.beartracks.ualberta.ca/',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 2 2 7l10 5 10-5-10-5Z" />
-        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Gmail',
-    description: 'Your @ualberta.ca student email',
-    url: 'https://mail.google.com/a/ualberta.ca',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="m2 7 10 6 10-6" />
-      </svg>
-    ),
+    icon: <BearTracksLogo />,
   },
 ]
 
@@ -113,7 +147,7 @@ export default function StudentDashboard() {
               rel="noreferrer"
               className="border border-line rounded-card p-4 hover:border-ua-green/50 hover:shadow-sm transition-all flex items-start gap-3"
             >
-              <div className="text-ua-deep-green flex-shrink-0 mt-0.5">{app.icon}</div>
+              <div className="flex-shrink-0 mt-0.5">{app.icon}</div>
               <div>
                 <p className="font-medium text-sm">{app.name} ↗</p>
                 <p className="text-xs text-ink-2 mt-0.5">{app.description}</p>
@@ -179,6 +213,21 @@ export default function StudentDashboard() {
             </ul>
           )}
         </div>
+      </div>
+
+      <div className="card mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <div className="text-ua-deep-green flex-shrink-0 mt-0.5">
+            <TeachingIcon />
+          </div>
+          <div>
+            <h2 className="text-lg">Apply for TA</h2>
+          
+          </div>
+        </div>
+        <a href={TA_URL} target="_blank" rel="noreferrer" className="btn-primary flex-shrink-0">
+          {TA_BUTTON_LABEL}
+        </a>
       </div>
     </div>
   )
