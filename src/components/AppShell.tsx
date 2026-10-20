@@ -163,8 +163,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // The Home page is a standalone landing page with its own header — never
-  // wrap it in the logged-in app nav, even if someone happens to be signed in.
+  
   if (!session || location.pathname === '/') {
     return <>{children}</>
   }

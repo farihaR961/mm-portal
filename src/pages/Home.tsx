@@ -69,8 +69,6 @@ function CheckIcon() {
   )
 }
 
-// One short line per highlight, on purpose: the home page stays minimal and
-// the longer program details live in the tabbed card further down.
 const HIGHLIGHTS = [
   { title: 'Co-op by design', body: 'Half the degree is an 8-month internship.', icon: <CoopIcon /> },
   { title: 'Real industry projects', body: 'Projects come from industry, MRC, and faculty.', icon: <ProjectIcon /> },
