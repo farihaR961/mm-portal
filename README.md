@@ -1,78 +1,98 @@
-# MM Portal-Frontend Prototype
+# MM Portal
 
-A frontend-only prototype of the MM Program Portal, built with React + Vite + TypeScript + Tailwind CSS. All data is fake and lives behind a single mock API module (`src/mock-api/`) so a real backend can be swapped in later without touching UI code. There is no real UofA login and no real email sending — both are mocked, as scoped for this first two-week deliverable.
+A frontend prototype of the MM Program Portal for the University of Alberta Multimedia (MM) co-op MSc program. It is built with React, Vite, TypeScript, and Tailwind CSS.
 
-## Running it locally
 
-Requirements: Node.js 18+ and npm.
+## Run it
+
+You need Node.js 18 or newer and npm.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open the URL Vite prints (typically `http://localhost:5173`).
+Open the address that `npm run dev` prints, usually `http://localhost:5173`. If that port is busy, Vite picks the next free one and prints it.
 
-To type-check and build a production bundle:
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Starts the site for development |
+| `npm run build` | Type-checks and builds the production bundle |
+| `npm run preview` | Serves the built bundle locally |
+| `npx tsc --noEmit` | Type-checks the whole project without building |
+| `npm run lint` | Runs ESLint |
 
-```bash
-npm run build
-npm run preview
-```
+## Sign in
 
-## Signing in
+There is one sign-in page for everyone, at `/login`. The email decides your role.
 
-There is no real authentication. On the landing page, pick one of:
-- **Continue as Admin** — goes straight to the admin dashboard.
-- **Current MM Student** — pick one of three sample students, each in a different stage of the program (course-heavy, actively searching, internship offer in hand).
-- **Alumni** — a sample graduated student.
+1. Enter a CCID (or the full email) and any password.
+2. Enter the 6-digit code from the verification step.
 
-You can also browse `/program` (Program Information) without signing in at all.
+The prototype cannot send email, so the "email" appears on the login page as a **demo inbox notification** in the corner. Click **Open email** to see the code. Codes expire after 10 minutes, and five wrong tries end the sign-in.
 
-## Project structure
+Settings for developers:
+
+- `MOCK_TWO_FACTOR_ENABLED` in `src/mock-api/twoFactor.ts` turns the code step on or off.
+- `MOCK_ALLOW_UNKNOWN_UALBERTA_EMAILS` in `src/mock-api/users.ts` decides whether any other `@ualberta.ca` CCID is accepted.
+## What is in it
+
+**Public pages**
+- `/` is the MM program home page: a short description, key numbers, and a tabbed card (Apply, Timeline, Courses, Internship, Contact). A placeholder is ready for the lab posters.
+- `/login` is the sign-in page with 2-step verification.
+- `/program` is the program information route (it currently redirects to the home page).
+
+**Current student** (`/student`)
+- Dashboard: next action, progress, links to Gmail, Canvas, and Bear Tracks, upcoming calendar items, notifications, and a TA resources link
+- Profile, MM journey timeline, documents, calendar, notifications and admin requests, internship tracking, job hub, and tools (resume, LinkedIn, job search tips)
+
+**Alumni** (`/alumni`): profile, past program record, alumni events, and openings
+
+**Admin** (`/admin`)
+- Cohort dashboard, student detail with notify and request-information actions
+- Calendar management (students get a notification and an email on every change)
+- Document management, job posting management, notification centre, and CSV export
+
+## How the code is organized
 
 ```
 src/
-  types/            Shared TypeScript types for the whole data model
-  mock-api/          The ONLY place fake data and data-access functions live
-    catalogue.ts      Course catalogue + which 6 of 8 courses this cohort uses
-    students.ts        8 fake student records across every internship stage
-    calendar.ts         Calendar events + add/update/remove functions
-    notifications.ts     Notifications + information requests
-    jobs.ts               Job/internship postings
-    csv.ts                 CSV export helpers
-    index.ts               Re-exports everything above — import from here
-  context/           Mock auth (role + which student is "logged in")
-  hooks/             useCurrentStudent() convenience hook
-  components/        Shared UI: AppShell (nav), StatusBadge, CategoryTag,
-                     CalendarView, Modal, PageHeader, RequireRole (route guard)
-  pages/
-    Login.tsx, ProgramOverview.tsx, AlumniPortal.tsx
-    student/          All current-student pages
-    admin/            All admin pages
-  App.tsx            Route table
+  types/         Shared TypeScript types
+  mock-api/      The only place fake data and data functions live
+                 (students, calendar, notifications, jobs, documents,
+                  users, twoFactor, csv, catalogue)
+  context/       AuthContext: session and the two-step sign-in
+  hooks/         useCurrentStudent
+  components/    AppShell (portal menu), Footer, PageHeader, Modal,
+                 StatusBadge, CategoryTag, CalendarView, RequireRole
+  pages/         Home, Login, AlumniPortal, PartnerPortal,
+                 student/ pages, admin/ pages
+  App.tsx        Route table, with role checks
 ```
 
-## Swapping in a real backend later
+Pages never hold their own fake data. They call functions from `src/mock-api`.
 
-Every page imports data functions from `src/mock-api` (e.g. `getStudentById`,
-`getAllEvents`, `sendNotification`). To connect a real backend, replace the
-implementations inside `src/mock-api/*.ts` with real `fetch` calls that
-return the same shapes defined in `src/types/index.ts` — no component code
-should need to change.
+## Moving to a real backend
 
-## What's covered
+`src/mock-api` is the swap point. Replace the functions there with real requests, keep the same return shapes from `src/types`, and the pages should not need to change.
 
-See `docs/PROJECT_NOTES.md` for the full sitemap, the list of user stories
-covered, and a log of anything added beyond the original brief with reasoning.
+Two parts need a server and cannot be done safely in the browser:
+- **Sign-in and the email code.** The server should create the code, email it, and check it. It must never send the code back to the browser. The logic is isolated in `src/mock-api/twoFactor.ts`.
+- **Role checks.** `RequireRole` only hides pages in the browser. A real server must also check the role on every request.
 
-## Known gaps / next steps
+## Limits of this prototype
 
-- The real MM resume template and sample job postings hadn't been provided
-  yet at the time of this build — the resume tool uses a clearly-labeled
-  placeholder layout, and the Job Hub uses invented sample postings. Both are
-  easy to swap in `src/mock-api/jobs.ts` and `src/pages/student/Tools.tsx`.
-- Course/internship/calendar dates are intentionally fake, as instructed.
-- No persistence — refreshing the page resets any admin edits made during a
-  session (calendar edits, sent notifications, submitted CSV exports), since
-  there's no backend yet.
+- Data lives in memory and resets when the page is refreshed.
+- Document downloads are placeholder files, unless an admin pastes a link to a real file.
+- Resume template, job postings, course details, and all dates are placeholders or fake.
+- Course project assignment, submission, and grading are intentionally not built.
+
+Planned next: student status updates, alumni profile editing (LinkedIn, website, CV upload, "last updated"), and admin dashboard filters.
+
+## Design
+
+The look follows the ROSS research site: UA green `#007C41`, deep green `#0B3D23`, gold `#FFDB05`, mist `#F3F6F2`, line `#DBE2DA`, ink `#101B13` and `#44544A`. Fonts are Archivo for text, Fraunces italic for accents, and IBM Plex Mono for small labels. It works on phones as well as desktops.
+
+## More documentation
+
+See `docs/PROJECT_NOTES.md` for the sitemap, the user stories, and a record of what was added and why.
